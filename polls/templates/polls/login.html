@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dabbawala</title>
+    </head>
+
+    <body>
+        <h1>Login to Dabbawala</h1>
+        <form id="login_form" method="post" action="/polls/login/">
+            {% csrf_token %}
+            Username: <input type="text" name="username" value="" />
+            <br />
+            Password: <input type="password" name="password" value="" />
+            <br />
+            <input type="submit" value="submit" />
+        </form>
+    </body>
+</html>

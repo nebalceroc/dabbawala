@@ -1,0 +1,22 @@
+{% if user.is_authenticated %}
+
+<h2>Welcome back, {{ user.username }}!</h2>
+<a href="/polls/logout">Log out</a>
+    {% if latest_products %}
+        <ul>
+            {% for prod in latest_products %}
+            <li>{{ prod.name }}: {{ prod.description }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No products available.</p>
+    {% endif %}
+
+{% else %}
+
+<h2>You're not logged in.</h2>
+<a href="/polls/register">Sign up</a>
+<br />
+<a href="/polls/login">Log in</a>
+
+{% endif %}
