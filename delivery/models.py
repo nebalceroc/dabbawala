@@ -14,7 +14,13 @@ class UserProfile(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
+    price = models.IntegerField()
     description = models.CharField(max_length=500)
 
     def __unicode__(self):
         return "%s: %s" % (self.name, self.description)
+
+class Request(models.Model):
+    user = models.ForeignKey(User)
+    products = models.ManyToManyField(Product)
+    total = models.IntegerField()
