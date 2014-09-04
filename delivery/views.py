@@ -3,13 +3,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader
-from polls.models import Product
-from polls.forms import UserForm, UserProfileForm
+from delivery.models import Product
+from delivery.forms import UserForm, UserProfileForm
 
 def index(request):
     latest_products = Product.objects.all()
     context = {'latest_products': latest_products}
-    return render(request, 'polls/index.html', context)
+    return render(request, 'index.html', context)
 
 def detail(request, poll_id):
     return HttpResponse('You are looking at poll %s' % poll_id)
@@ -46,7 +46,7 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render_to_response(
-            'polls/register.html',
+            'register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
             context)
 
@@ -69,9 +69,9 @@ def user_login(request):
             print 'Invalid login details: {0}:{1}'.format(username, password)
             return HttpResponse('Your Dabbawala account is disabled')
     else:
-        return render_to_response('polls/login.html', {}, context)
+        return render_to_response('login.html', {}, context)
 
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/polls/')
+    return HttpResponseRedirect('/delivery/')

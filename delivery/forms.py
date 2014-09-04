@@ -1,4 +1,4 @@
-from polls.models import UserProfile
+from delivery.models import UserProfile
 from django import forms
 from django.contrib.auth.models import User
 

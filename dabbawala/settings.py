@@ -10,11 +10,23 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
+    #'default': {
+    #    'ENGINE': 'django_mongodb_engine', 
+    #    'NAME': 'admin',
+    #    'HOST': 'localhost'
+        
     'default': {
-        'ENGINE': 'django_mongodb_engine', 
-        'NAME': 'admin',
-        'HOST': 'localhost'
+        'NAME': 'dabbawala',
+        'ENGINE': 'mysql.connector.django',
+        'USER': 'root',
+        'PASSWORD': '',
+        'OPTIONS': {
+          'autocommit': True,
+        },
+    
     }
+             
+
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -118,9 +130,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'django_mongodb_engine',
-    'djangotoolbox',
-    'polls'
+    'delivery'
+    #'dabbawala.apps.payment'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -153,4 +164,8 @@ LOGGING = {
         },
     }
 }
-LOGIN_URL = '/polls/login/'
+
+#test keys:
+STRIPE_API_KEY = ""
+STRIPE_PUB_KEY = ""
+LOGIN_URL = '/delivery/login/'
