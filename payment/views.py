@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from delivery import services, models
 
+@requires_login
 def menu_charge(request,request_id):
     if request.method == "POST":        
         stripe.api_key = settings.STRIPE_API_KEY
@@ -18,9 +19,9 @@ def menu_charge(request,request_id):
             raise forms.ValidationError("Error: %s" % instance.message)
             
         else:
-                instance.amount = amount
+                instance.amount = payment.amount
                 instance.save()                   
                 return HttpResponseRedirect("URL PARA DESPUES DE LOS PAGOS")        
 
     else:
-        return HttpResponseRedirect("/payments/methods/")
+        return HttpResponseRedirect("/payment/pay/")
