@@ -14,7 +14,7 @@
 
         {% else %}
 
-        <form id="user_form" method="post" action="/polls/register/" enctype="multipart/form-data">
+        <form id="user_form" method="post" action="/deliver/register/" enctype="multipart/form-data">
             {% csrf_token %}
             {{ user_form.as_p }}
             {{ profile_form.as_p }}

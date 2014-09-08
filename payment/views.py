@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from delivery import services, models
+from django.contrib.auth.decorators import login_required
 
-@requires_login
-def menu_charge(request,request_id):
+#@login_required
+def menu_charge(request,request_id=0):
     if request.method == "POST":        
         stripe.api_key = settings.STRIPE_API_KEY
         card = request.POST.get("stripeToken")
@@ -24,4 +25,5 @@ def menu_charge(request,request_id):
                 return HttpResponseRedirect("URL PARA DESPUES DE LOS PAGOS")        
 
     else:
-        return HttpResponseRedirect("/payment/pay/")
+        context = {'user': request.user}
+        return render(request, 'pay.html', context)

@@ -1,7 +1,7 @@
 {% if user.is_authenticated %}
 
 <h2>Welcome back, {{ user.username }}!</h2>
-<a href="/polls/logout">Log out</a>
+<a href="/delivery/logout">Log out</a>
     {% if latest_products %}
         <ul>
             {% for prod in latest_products %}
@@ -15,8 +15,8 @@
 {% else %}
 
 <h2>You're not logged in.</h2>
-<a href="/polls/register">Sign up</a>
+<a href="/delivery/register">Sign up</a>
 <br />
-<a href="/polls/login">Log in</a>
+<a href="/delivery/login">Log in</a>
 
 {% endif %}
