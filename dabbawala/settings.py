@@ -164,6 +164,6 @@ LOGGING = {
 }
 
 #test keys:
-STRIPE_API_KEY = ""
-STRIPE_PUB_KEY = ""
+STRIPE_API_KEY = "sk_test_2BSQYtVKh7XLmnNxl6dL9YHf"
+STRIPE_PUB_KEY = "pk_test_wSObXzm2szNaZC4175hLmEd0"
 LOGIN_URL = '/delivery/login/'
