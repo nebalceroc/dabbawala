@@ -1,0 +1,105 @@
+
+
+body{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #ffffff;
+	background-color :#21335C;
+}
+
+#header{
+	height: 40px;
+}
+
+#navlist li
+{
+
+display: inline;
+list-style-type: none;
+padding-right: 20px;
+float: right;
+}
+
+#main{
+	position: absolute;
+  top: 35%;
+  left: 50%;
+  width:500px;
+  transform: translate(-50%,0);
+
+}
+
+#inicio{
+	background-image: url('/static/dabba.jpg');
+	opacity:1;
+	top: 100px;
+	text-align:center;
+	height:400px; width:600px;
+}
+
+h1{
+font-size: 50px;
+
+}
+
+
+.productos{
+
+	height:600px;
+	width:400px;
+}
+
+.container {
+    width: 200px;
+    height: 120px;
+	text-align:center;	
+	top: 100px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+.productos{
+
+	height:600px;
+	width:400px;
+}
+
+#login{
+	border-radius: 5px;
+	color: #FFFFFF;
+	background: #354872;
+	width:400px;
+	height:auto;
+	padding:0px;
+	border-right-style:solid;
+	border-right-color:#000000;
+	border-right-width:thin;
+	padding-right:3px;
+	border-left-style:solid;
+	border-left-color:#000000;
+	border-left-width:thin;
+	padding-left:3px;
+	border-top-style:solid;
+	border-top-color:#000000;
+	border-top-width:thin;
+	padding-top:3px;
+	border-bottom-style:solid;
+	border-bottom-color:#000000;
+	border-bottom-width:thin;
+	padding-bottom:3px;
+}
+
+
+a:link{
+	color:white;
+}
+a:visited{
+	color:white;
+}
+a:hover{
+	color:white;
+}
+a:active{
+	color:white;
+}
