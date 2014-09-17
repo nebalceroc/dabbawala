@@ -1,0 +1,11 @@
+<h2>{{ user.username}}'s shopping cart</h2>
+
+{% if orders %}
+<ul>
+    {% for prod in orders %}
+    <li><strong>{{ prod }}</strong></li>       
+    {% endfor %}
+<ul>
+{% else %}
+Your shopping cart is empty.
+{% endif %}

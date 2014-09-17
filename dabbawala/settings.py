@@ -17,9 +17,9 @@ DATABASES = {
         
     'default': {
         'NAME': 'dabbawala',
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
-        'PASSWORD': 'moto',
+        'PASSWORD': 'hurriamadurr',
         'OPTIONS': {
           'autocommit': True,
         },
@@ -43,7 +43,7 @@ TIME_ZONE = 'America/Bogota'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = '54049d83c4eb0a55239095cf'
+SITE_ID = '1'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -80,7 +80,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	"C:\Users\Sergio\Documents\Arquitectura\dabbawala\static",
+	"../static",
 )
 
 # List of finder classes that know how to find static files in
