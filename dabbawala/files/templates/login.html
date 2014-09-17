@@ -1,18 +1,32 @@
+
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
     <head>
+		<!--Para el estático-->
+		<link href='{% static "main.css" %}' rel='stylesheet' type='text/css'>
+		<!-- <link href='main.css' rel='stylesheet' type='text/css'> -->
         <title>Dabbawala</title>
     </head>
 
-    <body>
-        <h1>Login to Dabbawala</h1>
-        <form id="login_form" method="post" action="/deliver/login/">
-            {% csrf_token %}
-            Username: <input type="text" name="username" value="" />
-            <br />
-            Password: <input type="password" name="password" value="" />
-            <br />
-            <input type="submit" value="submit" />
-        </form>
-    </body>
+    <body>	
+		<div id="main">
+
+			<h1>Inicia sesi&oacute;n en Dabbawala</h1>
+			<h3>(as&iacute; sabremos qui&eacute;n eres y podremos atenderte mejor)</h3>			
+			<div id="login">
+
+				<form id="login_form" method="post" action="/delivery/login/">
+					<!--{% csrf_token %}-->
+					Usuario: <input type="text" name="username" value="" />
+					<br />
+
+					Password: <input type="password" name="password" value="" />
+					<br />
+					<input type="submit" value="Bienvenido, est&aacute;s en casa" />
+				</form>
+			</div>
+		</div>		
+	</body>
 </html>

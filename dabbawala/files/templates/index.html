@@ -1,22 +1,56 @@
-{% if user.is_authenticated %}
+{% load staticfiles %}
 
-<h2>Welcome back, {{ user.username }}!</h2>
-<a href="/delivery/logout">Log out</a>
-    {% if latest_products %}
-        <ul>
-            {% for prod in latest_products %}
-            <li>{{ prod.name }}: {{ prod.description }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No products available.</p>
-    {% endif %}
+<html>
 
-{% else %}
+<head>
+	<!--Para el estático-->
+	<link href='{% static "main.css" %}' rel='stylesheet' type='text/css'>
+	<!--<link href='main.css' rel='stylesheet' type='text/css'>-->
+</head>
+<body>
+	<div id="header">
+		<ul id="navlist">
+			{% if user.is_authenticated %}
+			<li>Hola, {{ user.username }}!</li>		
+			{% else %}
+			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
+			{% endif %}				
+			<li>&iquest;Qui&eacute;nes somos?</li>
+			<li>Ayuda</li>
+			<li>&iexcl;Cont&aacute;ctanos!</li>
+				
+		</ul>
+	</div>
 
-<h2>You're not logged in.</h2>
-<a href="/delivery/register">Sign up</a>
-<br />
-<a href="/delivery/login">Log in</a>
 
-{% endif %}
+
+	<center>
+		 <div id="inicio"> 
+		<!-- <div style="background-image: url('{% static "dabba.jpg" %}');opacity:1;top: 100px;text-align:center;height:400px; width:600px;"> -->
+			<h1>dabbawala</h1>
+			<h3>ordena r&aacute;pido y seguro</h3>
+		</div>
+	</center>
+	
+	<!--<img src='{% static "dabba.jpg" %}'/>-->
+	{% if ultimos %}
+		<ul id="navlist">
+		{% for p in ultimos %}
+			<li><a href="/productos/{{ p.id }}/">{{ p.nombre }}</a></li>
+		{% endfor %}
+		</ul>
+	{% else %}
+		<p>No hay productos registrados</p>
+	{% endif %}
+	
+	
+
+	<div class="container">
+		<img src="dabba.jpg">
+		<h4>Papitas</h4>
+	</div>
+
+
+
+</body>
+</html>
