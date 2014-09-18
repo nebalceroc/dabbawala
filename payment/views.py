@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 from delivery import services, models
 from models import Payment
 from django.contrib.auth.decorators import login_required

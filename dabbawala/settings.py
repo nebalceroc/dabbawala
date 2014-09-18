@@ -17,9 +17,9 @@ DATABASES = {
         
     'default': {
         'NAME': 'dabbawala',
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'USER': 'root',
-        'PASSWORD': 'hurriamadurr',
+        'PASSWORD': '',
         'OPTIONS': {
           'autocommit': True,
         },
@@ -130,8 +130,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'delivery'
-    #'dabbawala.apps.payment'
+    'delivery',
+    'payment'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

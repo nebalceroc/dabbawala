@@ -62,7 +62,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/polls/')
+                return HttpResponseRedirect('/delivery/')
             else:
                 return HttpResponse('Invalid login details.')
         else:

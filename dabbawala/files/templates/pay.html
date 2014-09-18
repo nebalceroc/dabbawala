@@ -1,17 +1,45 @@
-<!DOCTYPE html>
 <script type="text/javascript" src="static/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
+{% load staticfiles %}
 
-<form action="" method="POST">
-{% csrf_token %}
-<script
-  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-  data-key="pk_test_wSObXzm2szNaZC4175hLmEd0"
-  data-amount="2000"
-  data-name="Request Pay"
-  data-description="2 widgets (<price>)"
-  data-image="/128x128.png">
-</script>
-</form>
+<html>
 
+<head>
+	<!--Para el estático-->
+	<link href='{% static "main.css" %}' rel='stylesheet' type='text/css'>
+	<!--<link href='main.css' rel='stylesheet' type='text/css'>-->
+</head>
+<body>
+	<div id="header">
+		<ul id="navlist">
+			{% if user.is_authenticated %}
+			<li>Hola, {{ user.username }}!</li>		
+			{% else %}
+			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
+			{% endif %}				
+			<li>&iquest;Qui&eacute;nes somos?</li>
+			<li>Ayuda</li>
+			<li>&iexcl;Cont&aacute;ctanos!</li>
+							
+		</ul>
+	</div>
+			
+			<div style="margin-left:600px;margin-top:500px">
+			<form action="" method="POST">
+			{% csrf_token %}
+			<script
+  			src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+  			data-key="pk_test_wSObXzm2szNaZC4175hLmEd0"
+  			data-amount="2000"
+  			data-name="Request Pay"
+  			data-description="2 widgets (<price>)"
+  			data-image="/128x128.png">
+			</script>
+			</div>
+			</form>
+
+	
+		
+</body>
+</html>
