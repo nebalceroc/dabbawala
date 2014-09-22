@@ -1,0 +1,81 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+		<!--Para el estático-->
+		<link href='{% static "main.css" %}' rel='stylesheet' type='text/css'>
+		<!-- <link href='main.css' rel='stylesheet' type='text/css'> -->
+		<script type="text/javascript" src= '{% static "raphael-min.js" %}'></script>
+		<script type="text/javascript" src= '{% static "g.raphael-min.js" %}'></script>
+		<script type="text/javascript" src= '{% static "g.line-min.js" %}'></script>
+		<style type="text/css"> 
+			.chartWrapper {
+				
+			  	margin: 10px auto;
+			  	width: 560px;
+			  	height: 260px;
+			  	text-align: center;
+			  	background-color: #FFF;
+			}
+
+		</style>
+		
+        <title>Dabbawala - Reports</title>
+    </head>
+
+    <body>
+		<div id="main">
+			<h1>Reportes</h1>
+			<script>
+			function Hide(){
+			    if(document.getElementById('id_kind').options[document.getElementById('id_kind').selectedIndex].value == "P"){
+			         document.getElementById('id_product').style.display = '';
+			    }else{
+			         document.getElementById('id_product').style.display = 'none';
+			    }
+			}
+			</script>
+			<form id="report_form" method="post" action="/report/" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div><label>Kind</label>{{form.kind}}</div>
+				<div id="id_product"><label>Product</label>{{form.product}}</div>
+				<div><label>Start Date</label>{{form.start_date}}</div>
+				<div><label>End Date</label>{{form.end_date}}</div>	
+				
+				<input type="submit" name="submit" value="Generar" />
+			</form>
+			<div id="simpleExample" class="chartWrapper">
+				<script>
+					// Creates canvas 320 × 200 at 10, 50
+					var n = {{months|safe}};
+					window.onload = function () {
+
+					// Creates canvas 640 × 480 at 10, 50
+					var r = Raphael("simpleExample");
+					// Creates pie chart at with center at 320, 200,
+					// radius 100 and data: [55, 20, 13, 32, 5, 1, 2]
+					var x = r.linechart(30, 30, 490, 180, {{len}}, {{vals}}, {smooth: false, axis: '0,0,1,1', colors: ['#F00'], symbol: "circle", axisxstep: {{len}}.length-1});
+					//ar n = {{months}}.length;
+					//document.write(n);
+					for(var i = 0; i<n.length; i++){
+						x.axis[0].text.items[i].attr({'text':n[i]});
+						x.axis[0].text.items[i].rotate(-45,this.x,this.y);
+						x.axis[0].text.items[i].translate(-10, 10);
+					}
+					x.hoverColumn(function () {
+	                    this.tags = r.set();
+
+	                    for (var i = 0, ii = this.y.length; i < ii; i++) {
+	                        this.tags.push(r.tag(this.x, this.y[i], this.values[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+	                    }
+	                }, function () {
+	                    this.tags && this.tags.remove();
+	                });
+					};
+	        	</script>
+
+			</div>
+		</div>		
+    </body>
+</html>
