@@ -10,20 +10,16 @@
 <body>
 	<div id="header">
 		<ul id="navlist">
-		{% static "main.css" %}
 			{% if user.is_authenticated %}
-			<li>Hola, {{ user.username }}!</li>		
+			    <li>Hola, {{ user.username }}!</li>		
 			{% else %}
-			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
+    			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
 			{% endif %}				
-			<li>&iquest;Qui&eacute;nes somos?</li>
-			<li>Ayuda</li>
-			<li>&iexcl;Cont&aacute;ctanos!</li>
-				
+	    	<li>&iquest;Qui&eacute;nes somos?</li>
+    		<li>Ayuda</li>
+	    	<li>&iexcl;Cont&aacute;ctanos!</li>
 		</ul>
 	</div>
-
-
 
 	<center>
 		 <div id="inicio"> 
@@ -43,20 +39,20 @@
         <div class="ca-item ca-item-{{item.id}}">
             <div class="ca-item-main">
                 <div class="ca-icon"></div>
-                <h3>item.name</h3>
+                <h3>{{ item.name }}</h3>
                 <h4>
                     <span class="ca-quote">“</span>
-                    <span>item.description</span>
+                    <span>{{ item.description }}</span>
                 </h4>
                     <a href="#" class="ca-more">more...</a>
             </div>
             <div class="ca-content-wrapper" style="overflow:hidden">
                 <div class="ca-content">
-                    <h6>item.name</h6>
+                    <h6>{{ item.name }}</h6>
                     <a href="#" class="ca-close">close</a>
                     <div class="ca-content-text">
-                        <p>item.description</p>
-                        <p>Price: item.price USD</p>
+                        <p>{{ item.description }}</p>
+                        <p>Price: {{ item.price }} USD</p>
                     </div>
                 </div>
             </div>
@@ -75,15 +71,26 @@
 			$('#ca-container').contentcarousel();
 		</script>
 
+<form action="/delivery/cart/" method="POST">
+    {% csrf_token %}
 	{% if latest_products %}
-		<ul>
 		{% for p in latest_products %}
-        <li><a href="/productos/{{ p.name }}/"><strong>{{ p.name }}</strong>: {{ p.description }}</a></li>
+        <div class="product_listing" style="display:block">
+            <div class="product_aux" style="display:inline-block">
+                <input type="text" name="{{ p.code }}" maxlength="2" value="0" style="width:20px">
+                <img src="{{ STATIC_URL }}{{ p.code }}.jpg">
+            </div>
+            <div class="product_desc" style="display:inline-block">
+                <strong>{{ p.name }}</strong><br />
+                {{ p.description }}
+            </div>
+        </div>
 		{% endfor %}
-		</ul>
+        <input type="Submit" value="Agregar al carrito">
 	{% else %}
 		<p>No hay productos registrados</p>
 	{% endif %}
+</form>
 	
 </body>
 </html>

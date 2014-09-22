@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<html>
+
+<head>
+	<!--Para el estático-->
+	<link href='{% static "main.css" %}' rel='stylesheet' type='text/css'>
+	<!--<link href='main.css' rel='stylesheet' type='text/css'>-->
+</head>
+<body>
+	<div id="header">
+		<ul id="navlist">
+			{% if user.is_authenticated %}
+			    <li>Hola, {{ user.username }}!</li>		
+			{% else %}
+    			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
+			{% endif %}				
+	    	<li>&iquest;Qui&eacute;nes somos?</li>
+    		<li>Ayuda</li>
+	    	<li>&iexcl;Cont&aacute;ctanos!</li>
+		</ul>
+	</div>
+
+	<center>
+		 <div id="inicio"> 
+		<!-- <div style="background-image: url('{% static "dabba.jpg" %}');opacity:1;top: 100px;text-align:center;height:400px; width:600px;"> -->
+			<h1>dabbawala</h1>
+			<h3>ordena r&aacute;pido y seguro</h3>
+		</div>
+	</center>
+	
+	<!--<img src='{% static "dabba.jpg" %}'/>-->
+	
+<form action="/payment/{{ request_id }}" method="POST">
+    {% csrf_token %}
+	{% if order %}
+		{% for prod, val in order.items %}
+        <!-- val := (amount, price) -->
+        <div class="product_listing" style="display:block">
+            <div class="product_aux" style="display:inline-block">
+                <input type="text" value="{{ val.0 }}" readonly style="width:20px">
+                <img src="{{ STATIC_URL }}{{ p.code }}.jpg">
+            </div>
+            <div class="product_desc" style="display:inline-block">
+                <strong>{{ prod }}</strong>: {{ val.1 }} USD<br />
+            </div>
+        </div>
+		{% endfor %}
+
+        <strong>Total</strong>: {{ total }} USD
+        <input type="Submit" value="Comprar">
+	{% else %}
+		<p>Tu carrito de compras est&aacute; vac&iacute;o.</p>
+	{% endif %}
+</form>
+	
+</body>
+</html>

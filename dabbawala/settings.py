@@ -10,23 +10,17 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    #'default': {
-    #    'ENGINE': 'django_mongodb_engine', 
-    #    'NAME': 'admin',
-    #    'HOST': 'localhost'
         
     'default': {
         'NAME': 'dabbawala',
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'hurriamadurr',
         'OPTIONS': {
           'autocommit': True,
         },
     
-    }
-             
-
+    }      
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False

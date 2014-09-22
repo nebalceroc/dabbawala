@@ -3,22 +3,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader
-from delivery.models import Product
+from delivery.models import Product, Request
 from delivery.forms import UserForm, UserProfileForm
+import datetime
 
 def index(request):
     latest_products = Product.objects.all()
     context = {'latest_products': latest_products}
     return render(request, 'index.html', context)
-
-def detail(request, poll_id):
-    return HttpResponse('You are looking at poll %s' % poll_id)
-
-def results(request, poll_id):
-    return HttpResponse('You are looking at the results of poll %s' % poll_id)
-
-def vote(request, poll_id):
-    return HttpResponse('You are voting on poll %s' % poll_id)
 
 def register(request):
     context = RequestContext(request)
@@ -49,6 +41,33 @@ def register(request):
             'register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
             context)
+
+def cart(request):
+    products = {k: v for k, v in request.POST.iteritems() if k != u'csrfmiddlewaretoken' and v != '0'}
+    
+    # Integer validation
+    try:
+        amounts = [int(v) for v in products.itervalues()]
+    except ValueError:
+        return HttpResponse('Invalid amounts')
+
+    order = {}
+    total = 0
+    for c, amount in products.iteritems():
+        name = Product.objects.get(pk=c).name
+        order[name] = (amount, Product.objects.get(pk=c).price * int(amount))
+        total += order[name][1]
+
+    product_list = [name for name in order.iterkeys()]
+
+    product_queryset = [Product.objects.get(name=c) for c in order.iterkeys() ]
+    r = Request(user=request.user, pur_date=datetime.datetime.now(), total=total)
+    r.save()
+    for p in product_queryset:
+        r.products.add(p)
+
+    context = {'order': order, 'total': total, 'request_id': r.id}
+    return render(request, 'cart.html', context)
 
 def user_login(request):
     context = RequestContext(request)
