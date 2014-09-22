@@ -15,7 +15,11 @@ DATABASES = {
         'NAME': 'dabbawala',
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
+<<<<<<< HEAD
         'PASSWORD': 'hurriamadurr',
+=======
+        'PASSWORD': 'abc123456',
+>>>>>>> 6b9123b68f5db7115291c3b24ce2bb289c9339f1
         'OPTIONS': {
           'autocommit': True,
         },
