@@ -66,7 +66,7 @@ def cart(request):
     for p in product_queryset:
         r.products.add(p)
 
-    context = {'order': order, 'total': total, 'request_id': r.id}
+    context = {'order': order, 'total': total, 'cents_total': total * 100, 'request_id': r.id}
     return render(request, 'cart.html', context)
 
 def user_login(request):

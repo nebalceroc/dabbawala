@@ -94,6 +94,7 @@ class StatForm(forms.Form):
 	start_date = forms.DateField(help_text='Desde el 1 de esta fecha', widget=MonthYearWidget())
 	end_date = forms.DateField(help_text='Hasta un dia anterior al 1 de esta fecha', widget=MonthYearWidget())
 
+"""
 	def clean(self):
 		cleaned_data = super(StatForm,self).clean()
 		start_date = cleaned_data.get('start_date')
@@ -102,4 +103,5 @@ class StatForm(forms.Form):
 		if start_date and end_date:
 			if end_date <= start_date:
 				raise forms.ValidationError('La fecha inicial debe ser anterior a la final')
+                                """
 	

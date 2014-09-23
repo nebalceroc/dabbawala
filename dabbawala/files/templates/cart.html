@@ -1,6 +1,8 @@
-{% load staticfiles %}
-
 <html>
+
+{% load staticfiles %}
+<script type="text/javascript" src="static/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 <head>
 	<!--Para el estático-->
@@ -48,7 +50,16 @@
 		{% endfor %}
 
         <strong>Total</strong>: {{ total }} USD
-        <input type="Submit" value="Comprar">
+        <script
+        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="pk_test_wSObXzm2szNaZC4175hLmEd0"
+        data-amount="{{ cents_total }}"
+        data-name="Request Pay"
+        data-description="{{ total }}"
+        data-image="/128x128.png">
+        </script>
+
+        <input type="submit" value="Enviar orden">
 	{% else %}
 		<p>Tu carrito de compras est&aacute; vac&iacute;o.</p>
 	{% endif %}

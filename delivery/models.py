@@ -2,6 +2,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.files import File
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -17,7 +18,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField()
     description = models.CharField(max_length=500)
-
+    photo = models.ImageField(upload_to='fotos')
     def __unicode__(self):
         return "[id%s] %s - %s (%s USD)" % (self.code, self.name, self.description, self.price)
 

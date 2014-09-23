@@ -36,19 +36,21 @@
 <div class="ca-nav"><span class="ca-nav-prev">Previous</span><span class="ca-nav-next">Next</span></div>
 <div class="ca-wrapper">
 {% for item in latest_products %}
-        <div class="ca-item ca-item-{{item.id}}">
+        <div class="ca-item ca-item-{{ item.id }}">
             <div class="ca-item-main">
-                <div class="ca-icon"></div>
-                <h3>{{ item.name }}</h3>
-                <h4>
+                    <img src="/media/{{ item.photo }}">
+                <div class="ca-icon">
+                </div>
+                <h2>{{ item.name }}</h2>
+                <h3>
                     <span class="ca-quote">“</span>
                     <span>{{ item.description }}</span>
-                </h4>
+                </h3>
                     <a href="#" class="ca-more">more...</a>
             </div>
             <div class="ca-content-wrapper" style="overflow:hidden">
                 <div class="ca-content">
-                    <h6>{{ item.name }}</h6>
+                    <h2>{{ item.name }}</h2>
                     <a href="#" class="ca-close">close</a>
                     <div class="ca-content-text">
                         <p>{{ item.description }}</p>
@@ -78,7 +80,7 @@
         <div class="product_listing" style="display:block">
             <div class="product_aux" style="display:inline-block">
                 <input type="text" name="{{ p.code }}" maxlength="2" value="0" style="width:20px">
-                <img src="{{ STATIC_URL }}{{ p.code }}.jpg">
+                <img src="/media/{{ p.photo }}" width="200" height="200">
             </div>
             <div class="product_desc" style="display:inline-block">
                 <strong>{{ p.name }}</strong><br />
