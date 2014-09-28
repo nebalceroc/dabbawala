@@ -90,18 +90,17 @@ class MonthYearWidget(Widget):
 class StatForm(forms.Form):
 	STAT_CHOICES = (('TV','Total de Ventas'),('P','Por producto'))
 	kind = forms.CharField(max_length=2,initial='P',help_text='Tipo de reporte',widget=forms.Select(attrs={"onchange":'Hide()'},choices=STAT_CHOICES))
-	product = forms.ModelChoiceField(help_text='Producto a consultar', queryset=Product.objects.all(),initial=9)
+	product = forms.ModelChoiceField(help_text='Producto a consultar', queryset=Product.objects.all(),initial=0)
 	start_date = forms.DateField(help_text='Desde el 1 de esta fecha', widget=MonthYearWidget())
 	end_date = forms.DateField(help_text='Hasta un dia anterior al 1 de esta fecha', widget=MonthYearWidget())
 
-"""
 	def clean(self):
-		cleaned_data = super(StatForm,self).clean()
+		cleaned_data = self.cleaned_data
 		start_date = cleaned_data.get('start_date')
 		end_date = cleaned_data.get('end_date')
 
-		if start_date and end_date:
-			if end_date <= start_date:
-				raise forms.ValidationError('La fecha inicial debe ser anterior a la final')
-                                """
-	
+		if end_date <= start_date:
+			msg = u"End date should be greater than start date."
+			self._errors["end_date"] = self.error_class([msg])
+
+		return self.cleaned_data

@@ -15,12 +15,9 @@ DATABASES = {
         'NAME': 'dabbawala',
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
-        'PASSWORD': 'hurriamadurr',
-        'OPTIONS': {
-          'autocommit': True,
-        },
-    
-    }      
+        'PASSWORD': 'abc123456',
+        #'OPTIONS': {'autocommit': True},    
+    }
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -125,7 +122,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'delivery',
-    'payment'
+    'payment',
+    'report'
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

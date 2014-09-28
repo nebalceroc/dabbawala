@@ -26,5 +26,4 @@ class Request(models.Model):
     user = models.ForeignKey(User)
     pur_date = models.DateField()
     products = models.ManyToManyField(Product)
-    pur_date = models.DateField()
     total = models.IntegerField()

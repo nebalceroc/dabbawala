@@ -27,8 +27,8 @@ def stats(request):
 			product = form.cleaned_data['product']
 			delta =  end_date - start_date
 			if kind == 'TV':
-				values = []
-				months = []
+				values = ['Total de Ventas']
+				months = ['Mes']
 				query = Request.objects.filter(pur_date__range=(start_date, end_date))
 				total_sold = 0
 				actual = start_date
@@ -39,18 +39,17 @@ def stats(request):
 					months.append(calendar.month_name[actual.month])
 					actual = add_months(actual, 1)
 					total_sold = 0
-				lens = []
-				months = json.dumps(months)
-				for i in range(len(values)):
-					lens.append(i)
+				arr = [months, values]
+				arr = zip(*arr)
+				arr = json.dumps(arr)
 				form = StatForm()
 				return render_to_response('report.html',{'form':form, 'kind': kind, 'total': total_sold,
-										 'vals': values, 'len': lens, 'months': months},
+										  'arr': arr},
 										  context)
 				
 			if kind == 'P':
-				values = []
-				months = []
+				values = [product.name]
+				months = ['Mes']
 				total_sold = 0
 				query = Request.objects.filter(pur_date__range=(start_date, end_date),products=product)
 				actual = start_date
@@ -61,17 +60,17 @@ def stats(request):
 					months.append(calendar.month_name[actual.month])
 					actual = add_months(actual, 1)
 					total_sold = 0
-				months = json.dumps(months)
-				lens = []
-				for i in range(len(values)):
-					lens.append(i)
+				arr = [months, values]
+				arr = zip(*arr)
+				arr = json.dumps(arr)
 				form = StatForm()
 				return render_to_response('report.html',{'form':form, 'kind': kind, 'total': total_sold,
-										 'vals': values, 'len': lens, 'months': months},
+										 'arr': arr},
 										  context)
 		else:
+			label = form.errors
 			form = StatForm()
-			return render_to_response('report.html',{'form':form}, context)
+			return render_to_response('report.html',{'form':form, 'lab': label}, context)
 	else:
 		form = StatForm()
 	return render_to_response('report.html',{'form':form}, context)
