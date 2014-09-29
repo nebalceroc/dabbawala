@@ -228,10 +228,13 @@ a:active{
 
 /* Circular Content Carousel Style */
 .ca-container{
-	position:relative;
+	background: #6c2323;
+	position:absolute;
 	margin:25px auto 20px auto;
-	width:800px;
+	width:600px;
 	height:250px;
+	bottom:0px;	
+	top: 250px;
 }
 .ca-wrapper{
 	width:100%;
@@ -245,7 +248,7 @@ a:active{
 	width:200px;
 	height:100%;
 	text-align:center;
-	background: #CEECF5;
+	background: #6c2323;
 }
 .ca-more{
 	position: absolute;
@@ -253,7 +256,7 @@ a:active{
 	right:0px;
 	padding:4px 15px;
 	font-weight:bold;
-	background: #ccbda2;
+	background: #6c2323;
 	text-align:center;
 	color: white;
 	font-family: "Georgia","Times New Roman",serif;
@@ -284,7 +287,7 @@ a:active{
 	left:5px;
 	right:5px;
 	bottom:5px;
-	background: #fff;
+	background: #8b8b8d;
 	overflow:hidden;
 	-moz-box-shadow:1px 1px 2px rgba(0,0,0,0.2);
 	-webkit-box-shadow:1px 1px 2px rgba(0,0,0,0.2);
@@ -298,8 +301,8 @@ a:active{
 	/*background:;*/
 }
 .ca-content-wrapper{
-	background:#b0ccc6;
 	position:absolute;
+	background: #7a1212;
 	width:0px; /* expands to width of the wrapper minus 1 element */
 	height:240px;
 	top:5px;
@@ -308,8 +311,10 @@ a:active{
 	overflow:hidden;
 }
 .ca-content{
+	position:relative;
 	width:660px;
 	overflow:hidden;
+	padding:10px;
 }
 .ca-nav span{
 	width:25px;
@@ -318,7 +323,7 @@ a:active{
 	position:absolute;
 	top:50%;
 	margin-top:-19px;
-	left:-40px;
+	left:10px;
 	text-indent:-9000px;
 	opacity:0.7;
 	cursor:pointer;
@@ -327,8 +332,60 @@ a:active{
 .ca-nav span.ca-nav-next{
 	background-position:top right;
 	left:auto;
-	right:-40px;
+	right:10px;
 }
 .ca-nav span:hover{
 	opacity:1.0;
+}.order_button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #326cb3;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #326cb3;
+	box-shadow:inset 0px 1px 0px 0px #326cb3;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0c56a6), color-stop(1, #032459) );
+	background:-moz-linear-gradient( center top, #0c56a6 5%, #032459 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0c56a6', endColorstr='#032459');
+	background-color:#0c56a6;
+	-webkit-border-top-left-radius:6px;
+	-moz-border-radius-topleft:6px;
+	border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-moz-border-radius-topright:6px;
+	border-top-right-radius:6px;
+	-webkit-border-bottom-right-radius:6px;
+	-moz-border-radius-bottomright:6px;
+	border-bottom-right-radius:6px;
+	-webkit-border-bottom-left-radius:6px;
+	-moz-border-radius-bottomleft:6px;
+	border-bottom-left-radius:6px;
+	text-indent:0;
+	border:1px solid #01070f;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	width:150px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #1570cd;
 }
+.order_button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #032459), color-stop(1, #0c56a6) );
+	background:-moz-linear-gradient( center top, #032459 5%, #0c56a6 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#032459', endColorstr='#0c56a6');
+	background-color:#032459;
+}.order_button:active {
+	position:relative;
+	top:1px;
+}.textbox_m { 
+    background: white; 
+    border: 1px solid #ff0000; 
+    border-radius: 5px; 
+    box-shadow: 0 0 5px 3px #ff0000; 
+    color: #666; 
+    outline: none; 
+    height:23px; 
+    width: 55px; 
+  }
+
+

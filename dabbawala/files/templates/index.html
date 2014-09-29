@@ -7,13 +7,48 @@
 	<link href='{% static "main.css" %}' rel='stylesheet' type='text/css'>
 	<!--<link href='main.css' rel='stylesheet' type='text/css'>-->
 </head>
+<script type="text/javascript">
+
+//function to create a django hidden form with custom inputs
+function post(path, params, method) {
+    method = method || "POST"; 
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+			//hiddenField.setAttribute("csrfmiddlewaretoken","{{csrf_token}}");
+            form.appendChild(hiddenField);
+         }        
+    }    
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "csrfmiddlewaretoken");
+    hiddenField.setAttribute("value", "{{csrf_token}}");
+    form.appendChild(hiddenField);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function addNow(item_id) {
+	quantiy = document.getElementById('q_input_'+item_id).value;
+	post("",{"add_item":item_id,"quantity":quantiy}); 
+}
+</script>
 <body>
 	<div id="header">
 		<ul id="navlist">
 			{% if user.is_authenticated %}
-			    <li>Hola, {{ user.username }}!</li>		
+			    <li><a href="/delivery/logout">Log out</a></li>		
+			    <li>Hola, {{ user.username }}!</li>			    
 			{% else %}
     			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
+    			<li><a href="/delivery/register">&iexcl;Registrarse!</a></li>
 			{% endif %}				
 	    	<li>&iquest;Qui&eacute;nes somos?</li>
     		<li>Ayuda</li>
@@ -26,42 +61,45 @@
 		<!-- <div style="background-image: url('{% static "dabba.jpg" %}');opacity:1;top: 100px;text-align:center;height:400px; width:600px;"> -->
 			<h1>dabbawala</h1>
 			<h3>ordena r&aacute;pido y seguro</h3>
+			<div id="ca-container" class="ca-container">
+				<div class="ca-nav"><span class="ca-nav-prev">Previous</span><span class="ca-nav-next">Next</span></div>
+					<div class="ca-wrapper">
+						{% for item in latest_products %}
+        					<div class="ca-item ca-item-{{ item.id }}">
+            					<div class="ca-item-main">
+                    				<img src="/media/{{ item.photo }}">
+                					<div class="ca-icon">
+                					</div>
+                					<h2>{{ item.name }}</h2>
+                					<h3>
+                    				<span class="ca-quote">“</span>
+                    				<span>{{ item.description }}</span>
+                					</h3>
+                    				<a href="#" class="ca-more">more...</a>
+            					</div>
+            					<div class="ca-content-wrapper" style="overflow:hidden">
+                					<div class="ca-content">
+                    					<h2>{{ item.name }}</h2>
+                    					<a href="#" class="ca-close">close</a>
+                    					<div class="ca-content-text">
+                        					<p>{{ item.description }}</p>
+                        					<p>Price: {{ item.price }}USD</p>
+                        					<input class="textbox_m" name="q_input" id="q_input_{{item.pk}}" type="number" min="0" value="0"/>
+                    						<button id="add_b" class="order_button" onClick="addNow( {{item.pk}} )">Add to cart!</button>
+                    					</div>
+                					</div>
+            					</div>
+        					</div>
+						{% endfor %}
+				</div><!-- ca-wrapper -->
+			</div><!-- ca-container -->
 		</div>
 	</center>
 	
 	<!--<img src='{% static "dabba.jpg" %}'/>-->
 	
 <div id="menu">
-<div id="ca-container" class="ca-container">
-<div class="ca-nav"><span class="ca-nav-prev">Previous</span><span class="ca-nav-next">Next</span></div>
-<div class="ca-wrapper">
-{% for item in latest_products %}
-        <div class="ca-item ca-item-{{ item.id }}">
-            <div class="ca-item-main">
-                    <img src="/media/{{ item.photo }}">
-                <div class="ca-icon">
-                </div>
-                <h2>{{ item.name }}</h2>
-                <h3>
-                    <span class="ca-quote">“</span>
-                    <span>{{ item.description }}</span>
-                </h3>
-                    <a href="#" class="ca-more">more...</a>
-            </div>
-            <div class="ca-content-wrapper" style="overflow:hidden">
-                <div class="ca-content">
-                    <h2>{{ item.name }}</h2>
-                    <a href="#" class="ca-close">close</a>
-                    <div class="ca-content-text">
-                        <p>{{ item.description }}</p>
-                        <p>Price: {{ item.price }} USD</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-{% endfor %}
-</div><!-- ca-wrapper -->
-</div><!-- ca-container -->
+
 </div>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>

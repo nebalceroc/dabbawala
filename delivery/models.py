@@ -5,14 +5,17 @@ from django.contrib.auth.models import User
 from django.core.files import File
 
 class UserProfile(models.Model):
+    Rol_Types = (
+        ('A', 'Admin'),
+        ('O', 'Operador'),
+        ('D', 'Domiciliario'),
+        ('C', 'Cliente')
+    )
+    rol=models.CharField(max_length=1, choices=Rol_Types)
     user = models.OneToOneField(User)
 
-    credit_card = models.CharField(max_length=200)
-    cvv = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        return '%s: %s' % (self.credit_card, self.cvv)
-
+    
+    
 class Product(models.Model):
     code = models.CharField(max_length=10, primary_key=True)
     name = models.CharField(max_length=100)
@@ -22,8 +25,30 @@ class Product(models.Model):
     def __unicode__(self):
         return "[id%s] %s - %s (%s USD)" % (self.code, self.name, self.description, self.price)
 
+class Cart(models.Model):
+    user_id = models.OneToOneField(UserProfile)
+    
+class CartProduct(models.Model):
+    cart = models.ForeignKey(Cart)
+    product = models.ForeignKey(Product)
+    amount = models.IntegerField()
+    
+
+
 class Request(models.Model):
+    State_Types = (
+        ('C', 'Created'),
+        ('A', 'Asigned'),
+        ('S', 'Send'),
+        ('P', 'Paid'),
+        ('X', 'Incomplete')
+    )
+    state=models.CharField(max_length=1, choices=State_Types)
     user = models.ForeignKey(User)
     pur_date = models.DateField()
-    products = models.ManyToManyField(Product)
     total = models.IntegerField()
+    
+class RequestProduct(models.Model):
+    request = models.ForeignKey(Request)
+    product = models.ForeignKey(Product)
+    amount = models.IntegerField()

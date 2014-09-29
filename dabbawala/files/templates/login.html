@@ -9,20 +9,39 @@
 		<!-- <link href='main.css' rel='stylesheet' type='text/css'> -->
         <title>Dabbawala</title>
     </head>
+    <script type="text/javascript">
+$( document ).ready(function() {
+		
+	selectedField="";	
+	// Add business list click handler
+    $('.input_box').each(function () {       
+        $(this).click(function() {
+             selectedField=this.id;
+             if(selectedField=="user"){
+            	 $("#pass").attr('class', 'input_box OFF');
+            	 $("#user").attr('class', 'input_box ON');
+             }else{
+            	 $("#pass").attr('class', 'input_box ON');
+            	 $("#user").attr('class', 'input_box OFFss');
+             }
+        });	
+    });	
+});	
+</script>
 
     <body>	
 		<div id="main">
 
 			<h1>Inicia sesi&oacute;n en Dabbawala</h1>
-			<h3>(as&iacute; sabremos qui&eacute;n eres y podremos atenderte mejor)</h3>			
+			<!-- <h3>(as&iacute; sabremos qui&eacute;n eres y podremos atenderte mejor)</h3>	 -->		
 			<div id="login">
 
 				<form id="login_form" method="post" action="/delivery/login/">
 					{% csrf_token %}
-					Usuario: <input type="text" name="username" value="" />
+					Usuario:<br> <input id="user" type="text" class="input_box OFF" name="username" value=""  style="width:250px"/>
 					<br />
 
-					Password: <input type="password" name="password" value="" />
+					Password:<br> <input id="pass" type="password" class="input_box OFF" name="password" value="" style="width:250px"/>
 					<br />
 					<input type="submit" value="Bienvenido, est&aacute;s en casa" />
 				</form>
@@ -30,3 +49,5 @@
 		</div>		
 	</body>
 </html>
+
+

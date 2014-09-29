@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^forbidden/$', views.register, name='forbidden'),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^cart/$', views.cart, name='cart'),
+    url(r'^checkout/$', views.checkout, name='checkout'),
 )

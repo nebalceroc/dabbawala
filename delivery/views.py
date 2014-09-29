@@ -3,43 +3,74 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader
-from delivery.models import Product, Request
+from delivery.models import Product, Request, Cart, UserProfile, CartProduct, RequestProduct
 from delivery.forms import UserForm, UserProfileForm
+from delivery.services import get_user_cart
 import datetime
 
 def index(request):
+    if request.method == "POST":
+        if request.POST.get("add_item"):
+            item = request.POST.get("add_item")
+            u = request.user
+            cart = get_user_cart(u.id)
+            p = Product.objects.get(pk=item)
+            cp = CartProduct(cart=cart,product=p,amount=int(request.POST.get("quantity")))
+            cp.save()      
+            print cp
+            
+            
     latest_products = Product.objects.all()
     context = {'latest_products': latest_products}
     return render(request, 'index.html', context)
+
+def checkout(request):
+    u = request.user
+    cart = get_user_cart(u.id)
+    total=0    
+    all_products = CartProduct.objects.filter(cart_id=cart.id)
+    r = Request(state='C',user=request.user, pur_date=datetime.datetime.now(), total=0)
+    r.save()
+    for p in all_products:
+        print p.product.name
+        print p.amount
+        request_item = RequestProduct(request=r, product=p.product, amount=p.amount)
+        request_item.save()
+        total+=p.product.price
+            
+    r.total=total
+    r.save() 
+
+    context = {'total': total, 'cents_total': total * 100, 'request_id': r.id}
+    return render(request, 'cart.html', context)
+    
+        
+    
+    
 
 def register(request):
     context = RequestContext(request)
     registered = False
     if request.method == "POST":
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
-        
-        if user_form.is_valid() and profile_form.is_valid():
+        user_form = UserForm(data=request.POST)       
+        if user_form.is_valid():
             user = user_form.save()
-
             user.set_password(user.password)
             user.save()
-
-            profile = profile_form.save(commit=False)
+            profile = UserProfile(rol="C")
             profile.user = user
-
             profile.save()
-
+            new_cart = Cart()
+            new_cart.user_id = profile           
+            new_cart.save()
             registered = True
-        else:
-            print user_form.errors, profile_form.errors
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-
+            return HttpResponseRedirect('/')
+            
+            
+    user_form = UserForm()
     return render_to_response(
             'register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
+            {'user_form': user_form, 'registered': registered},
             context)
 
 def cart(request):
@@ -79,6 +110,7 @@ def user_login(request):
         user = authenticate(username=username, password=password)
 
         if user:
+            print user.is_active
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect('/delivery/')
