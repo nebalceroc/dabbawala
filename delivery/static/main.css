@@ -34,6 +34,7 @@ float: right;
 	top: 100px;
 	text-align:center;
 	height:400px; width:600px;
+	position:relative;
 }
 
 h1{
@@ -234,7 +235,7 @@ a:active{
 	width:600px;
 	height:250px;
 	bottom:0px;	
-	top: 250px;
+	top: 170px;
 }
 .ca-wrapper{
 	width:100%;
@@ -312,7 +313,7 @@ a:active{
 }
 .ca-content{
 	position:relative;
-	width:660px;
+	width:96%;
 	overflow:hidden;
 	padding:10px;
 }
@@ -388,4 +389,14 @@ a:active{
     width: 55px; 
   }
 
+.cart{
+	width:200px;
+	height:400px;
+	right:10px;
+	margin-top:-260px;
+	color: #ffffff;
+	background-color :#4d4d4d;
+	position:absolute;
+	overflow-y:scroll;
+}
 

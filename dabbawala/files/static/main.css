@@ -229,3 +229,12 @@ a:active{
 .ca-nav span:hover{
 	opacity:1.0;
 }
+
+.cart{
+	width:150px;
+	height:600px;
+	rigth:0px;
+	color: #ffffff;
+	background-color :#4d4d4d;
+	overflow-y:scroll;
+}

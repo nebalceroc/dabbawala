@@ -55,7 +55,7 @@ function addNow(item_id) {
 	    	<li>&iexcl;Cont&aacute;ctanos!</li>
 		</ul>
 	</div>
-
+	
 	<center>
 		 <div id="inicio"> 
 		<!-- <div style="background-image: url('{% static "dabba.jpg" %}');opacity:1;top: 100px;text-align:center;height:400px; width:600px;"> -->
@@ -95,11 +95,25 @@ function addNow(item_id) {
 			</div><!-- ca-container -->
 		</div>
 	</center>
-	
+	<font style="position:absolute; right:50px;margin-top:-300px;">{{user.username}} Cart</font>
+	<div id="cart" class="cart">	
+	{% for product in cart_list %}
+		<div class="product_listing" style="display:block">
+            <div class="product_aux" style="display:inline-block">
+                <img src="/media/{{ product.product.photo }}" width="200" height="200">
+            </div>
+            <div class="product_desc" style="display:inline-block">
+                <strong>{{ product.product.name }}</strong><br />
+                {{ product.product.description }}
+                amount: {{product.amount}}
+            </div>
+        </div>
+	{% endfor %}
+	</div>
 	<!--<img src='{% static "dabba.jpg" %}'/>-->
 	
 <div id="menu">
-
+	
 </div>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -111,6 +125,8 @@ function addNow(item_id) {
 			$('#ca-container').contentcarousel();
 		</script>
 
+
+<!-- 
 <form action="/delivery/cart/" method="POST">
     {% csrf_token %}
 	{% if latest_products %}
@@ -131,6 +147,6 @@ function addNow(item_id) {
 		<p>No hay productos registrados</p>
 	{% endif %}
 </form>
-	
+ -->
 </body>
 </html>

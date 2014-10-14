@@ -38,6 +38,7 @@ class CartProduct(models.Model):
 class Request(models.Model):
     State_Types = (
         ('C', 'Created'),
+        ('P', 'PreCreated'),
         ('A', 'Asigned'),
         ('S', 'Send'),
         ('P', 'Paid'),

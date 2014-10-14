@@ -5,23 +5,32 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader
 from delivery.models import Product, Request, Cart, UserProfile, CartProduct, RequestProduct
 from delivery.forms import UserForm, UserProfileForm
-from delivery.services import get_user_cart
+from delivery.services import get_user_cart, get_cart_list
 import datetime
 
 def index(request):
+    u = request.user
+    cart = get_user_cart(u)
     if request.method == "POST":
         if request.POST.get("add_item"):
-            item = request.POST.get("add_item")
-            u = request.user
-            cart = get_user_cart(u.id)
+            item = request.POST.get("add_item")    
             p = Product.objects.get(pk=item)
-            cp = CartProduct(cart=cart,product=p,amount=int(request.POST.get("quantity")))
-            cp.save()      
-            print cp
+            q =int(request.POST.get("quantity"))
+            try:
+                up_q = int(CartProduct.objects.get(cart=cart,product=p).amount) + int(q)
+                CartProduct.objects.filter(cart=cart,product=p).update(amount=up_q)
+            except:       
+                cproduct = CartProduct(product=p,cart=cart,amount=q)
+                cproduct.save()  
+                
+                  
             
-            
+    cart_list=[]        
     latest_products = Product.objects.all()
-    context = {'latest_products': latest_products}
+    if request.user.is_authenticated():
+        cart_list = get_cart_list(cart)            
+    
+    context = {'latest_products': latest_products, 'cart_list':cart_list}
     return render(request, 'index.html', context)
 
 def checkout(request):
@@ -29,7 +38,8 @@ def checkout(request):
     cart = get_user_cart(u.id)
     total=0    
     all_products = CartProduct.objects.filter(cart_id=cart.id)
-    r = Request(state='C',user=request.user, pur_date=datetime.datetime.now(), total=0)
+    product_list = []
+    r = Request(state='P',user=request.user, pur_date=datetime.datetime.now(), total=0)
     r.save()
     for p in all_products:
         print p.product.name
@@ -37,15 +47,13 @@ def checkout(request):
         request_item = RequestProduct(request=r, product=p.product, amount=p.amount)
         request_item.save()
         total+=p.product.price
+        product_list.append(request_item)
             
     r.total=total
     r.save() 
 
-    context = {'total': total, 'cents_total': total * 100, 'request_id': r.id}
-    return render(request, 'cart.html', context)
-    
-        
-    
+    context = {'product_list':product_list ,'total': total , 'request_id': r.id}
+    return render(request, 'cart.html', context)  
     
 
 def register(request):
