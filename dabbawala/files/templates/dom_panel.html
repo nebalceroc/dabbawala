@@ -1,0 +1,93 @@
+<html>
+
+{% load staticfiles %}
+<script type="text/javascript" src="/static/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<head>
+	<!--Para el estático-->
+	<link href='{% static "main.css" %}' rel='stylesheet' type='text/css'>
+	<!--<link href='main.css' rel='stylesheet' type='text/css'>-->
+</head>
+<script type="text/javascript">
+
+//function to create a django hidden form with custom inputs
+function post(path, params, method) {
+  method = method || "POST"; 
+  var form = document.createElement("form");
+  form.setAttribute("method", method);
+  form.setAttribute("action", path);
+  
+  for(var key in params) {
+      if(params.hasOwnProperty(key)) {
+          var hiddenField = document.createElement("input");
+          hiddenField.setAttribute("type", "hidden");
+          hiddenField.setAttribute("name", key);
+          hiddenField.setAttribute("value", params[key]);
+			//hiddenField.setAttribute("csrfmiddlewaretoken","{{csrf_token}}");
+          form.appendChild(hiddenField);
+       }        
+  }    
+  var hiddenField = document.createElement("input");
+  hiddenField.setAttribute("type", "hidden");
+  hiddenField.setAttribute("name", "csrfmiddlewaretoken");
+  hiddenField.setAttribute("value", "{{csrf_token}}");
+  form.appendChild(hiddenField);
+  document.body.appendChild(form);
+  form.submit();
+}
+
+
+function asign(rid) {
+	d = document.getElementById('selector_'+rid).value;
+	post("",{"r_id":rid,"d_id":d}); 
+}
+</script>
+<body>
+	<div id="header">
+		<ul id="navlist">
+			{% if user.is_authenticated %}
+			    <li>Hola, {{ user.username }}!</li>		
+			{% else %}
+    			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
+			{% endif %}				
+		</ul>
+	</div>
+	<center>
+		 <div id="inicio"> 
+		<!-- <div style="background-image: url('{% static "dabba.jpg" %}');opacity:1;top: 100px;text-align:center;height:400px; width:600px;"> -->
+			<h1>dabbawala</h1>
+			<h3>Dom Panel</h3>
+			
+    <div id="ca-container" class="ca-container">
+					<div class="ca-wrapper">
+						{% for r in pending_requests %}
+        					<div class="ca-item ca-item-{{ item.product.id }}">
+            					<div class="ca-item-main">
+                    				<div style="position:relative;height:90%;width:90%;">
+                					<font size="5" color="white">Order Id: {{ r.id }}</font><br>
+                					User: {{r.user.username}}
+                					<br>
+                    				<span>{{ r.pur_date }}</span><br>
+                    				</div>
+                    				<br>
+            					</div>      
+        					</div>
+						{% endfor %}
+				</div><!-- ca-wrapper -->
+			</div><!-- ca-container -->
+		</div>
+	</center>
+	
+	<!--<img src='{% static "dabba.jpg" %}'/>-->
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<script type="text/javascript" src='{% static "jquery.easing.1.3.js" %}'></script>
+		<!-- the jScrollPane script -->
+		<script type="text/javascript" src='{% static "jquery.mousewheel.js" %}'></script>
+		<script type="text/javascript" src='{% static "jquery.contentcarousel.js" %}'></script>
+		<script type="text/javascript">
+			$('#ca-container').contentcarousel();
+		</script>
+</body>
+</html>
