@@ -15,10 +15,9 @@ def menu_charge(request,request_id=0):
         stripe.api_key = settings.STRIPE_API_KEY
         card = request.POST.get("stripeToken")
         m = []   
-        #food_request = get_request(request_id)
+        food_request = get_request(request_id)
         payment = Payment()
-        #payment.amount = food_request.total
-        payment.amount = 20
+        payment.amount = food_request.total
         payment.paidBy = request.user
         payment.description = "food delivery: " #+ item_list              
         x = payment.amount*100 #Convert from dolars to cents
@@ -30,7 +29,9 @@ def menu_charge(request,request_id=0):
             
         else:
                 instance.amount = payment.amount
-                instance.save()                   
+                instance.save()    
+                food_request.paid=True
+                food_request.save()       
                 return HttpResponseRedirect("/")        
 
     else:

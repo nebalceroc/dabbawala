@@ -38,16 +38,17 @@ class CartProduct(models.Model):
 class Request(models.Model):
     State_Types = (
         ('C', 'Created'),
-        ('P', 'PreCreated'),
         ('A', 'Asigned'),
         ('S', 'Send'),
-        ('P', 'Paid'),
         ('X', 'Incomplete')
     )
     state=models.CharField(max_length=1, choices=State_Types)
     user = models.ForeignKey(User)
+    delivery_man = models.ForeignKey(UserProfile,null=True)
     pur_date = models.DateField()
+    paid = models.BooleanField(default=False)
     total = models.IntegerField()
+    dir = models.CharField(max_length=100)
     
 class RequestProduct(models.Model):
     request = models.ForeignKey(Request)

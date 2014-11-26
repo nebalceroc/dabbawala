@@ -14,7 +14,17 @@ def get_user_cart(u):
     
     return cart
 
+def empty_cart(cart):
+    list = get_cart_list(cart)
+    for item in list:
+        item.delete()
+
 def get_cart_list(cart):
     list = CartProduct.objects.filter(cart=cart)
-    print list
     return list
+
+def get_user_rol(user):
+    user = UserProfile.objects.get(user=user)
+    return user.rol
+        
+    

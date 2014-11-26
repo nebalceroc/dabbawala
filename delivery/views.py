@@ -5,13 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader
 from delivery.models import Product, Request, Cart, UserProfile, CartProduct, RequestProduct
 from delivery.forms import UserForm, UserProfileForm
-from delivery.services import get_user_cart, get_cart_list
+from delivery.services import get_user_cart, get_cart_list, get_user_rol, empty_cart, get_request
 import datetime
 
 def index(request):
     u = request.user
+    cart_list=[]  
     if request.user.is_authenticated():
         cart = get_user_cart(u)
+        cart_list = get_cart_list(cart)  
+        
     if request.method == "POST":
         if request.POST.get("add_item"):
             item = request.POST.get("add_item")    
@@ -26,34 +29,72 @@ def index(request):
                 
                   
             
-    cart_list=[]        
-    latest_products = Product.objects.all()
-    if request.user.is_authenticated():
-        cart_list = get_cart_list(cart)            
+          
+    latest_products = Product.objects.all()                 
     
     context = {'latest_products': latest_products, 'cart_list':cart_list}
     return render(request, 'index.html', context)
+
+def op_panel(request):
+    if request.method == "POST":
+        rid = request.POST.get("r_id")
+        did = request.POST.get("d_id")
+        req = get_request(rid)
+        dom = UserProfile.objects.get(pk=did)
+        req.delivery_man = dom
+        req.state="A"
+        req.save()        
+    
+    d_list = UserProfile.objects.filter(rol='D')
+    pending_requests = Request.objects.filter(state='C')
+    context = {'pending_requests': pending_requests, 'd_list':d_list}
+    return render(request, 'panel.html', context)
+
+def dom_panel(request):     
+    up = UserProfile.objects.get(user=request.user)
+    pending_requests = Request.objects.filter(delivery_man=up)
+    context = {'pending_requests': pending_requests}
+    return render(request, 'dom_panel.html', context)
 
 def checkout(request):
     u = request.user
     cart = get_user_cart(u)
     total=0    
     all_products = CartProduct.objects.filter(cart_id=cart.id)
-    product_list = []
-    r = Request(state='P',user=request.user, pur_date=datetime.datetime.now(), total=0)
-    r.save()
+    product_list=all_products
     for p in all_products:
-        print p.product.name
-        print p.amount
-        request_item = RequestProduct(request=r, product=p.product, amount=p.amount)
-        request_item.save()
-        total+=p.product.price
-        product_list.append(request_item)
+                total+=p.product.price*p.amount
+    
+    context = {'product_list':product_list ,'total': total ,'cents_total':total*100}            
+    if request.method == "POST":
+        if request.POST.get("mod_item"):
+            item = request.POST.get("mod_item")    
+            p = Product.objects.get(pk=item)
+            q =int(request.POST.get("quantity"))
+            print p.name
+            print q
+            try:
+                CartProduct.objects.filter(cart=cart,product=p).update(amount=q)
+                return HttpResponseRedirect('/delivery/checkout/')
+            except:       
+                print "error"
             
-    r.total=total
-    r.save() 
-
-    context = {'product_list':product_list ,'total': total , 'request_id': r.id,'cents_total':total*100}
+        if request.POST.get("dir"):
+            product_list=[]
+            r = Request(state='C',user=request.user, pur_date=datetime.datetime.now(), total=0)
+            r.save()
+            for p in all_products:
+                request_item = RequestProduct(request=r, product=p.product, amount=p.amount)
+                request_item.save()
+                product_list.append(request_item)
+            
+            r.total=total
+            r.dir = request.POST.get("dir")
+            r.save() 
+            empty_cart(cart)
+            context = {'product_list':product_list ,'total': total , 'rid':r.id, 'cents_total':total*100}
+            return render(request, 'order.html', context)      
+    
     return render(request, 'cart.html', context)  
     
 
@@ -122,7 +163,19 @@ def user_login(request):
             print user.is_active
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/delivery/')
+                rol = get_user_rol(user)
+                if rol == "A":
+                    return HttpResponseRedirect('/admin/')
+                
+                if rol == "C":               
+                    return HttpResponseRedirect('/delivery/')
+                
+                if rol == "O":               
+                    return HttpResponseRedirect('/delivery/op/')
+                
+                if rol == "D":               
+                    return HttpResponseRedirect('/delivery/dom/')
+                
             else:
                 return HttpResponse('Invalid login details.')
         else:

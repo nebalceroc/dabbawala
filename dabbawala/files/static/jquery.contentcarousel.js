@@ -1,3 +1,4 @@
+
 (function($) {
 	var	aux		= {
 			// navigates left / right
@@ -21,7 +22,6 @@
 				}
 				else {
 					var $first	= $wrapper.children().eq(0);
-					
 					$wrapper.find('div.ca-item:gt(' + ( cache.totalItems  - 1 - scroll ) + ')').each(function(i) {
 						// insert before $first so they stay in the right order
 						$(this).clone(true).css( 'left', - ( scroll - i + idxClicked ) * cache.itemW * factor + 'px' ).insertBefore( $first );
@@ -165,6 +165,7 @@
 						cache.itemW			= $items.width();
 						// save the number of total items
 						cache.totalItems	= $items.length;
+
 						
 						// add navigation buttons
 						if( cache.totalItems > 3 )	
@@ -201,6 +202,15 @@
 							return false;
 						});
 						
+						$el.find('a.ca-soldout').live('click.contentcarousel', function( event ) {
+							if( cache.isAnimating ) return false;
+							cache.isAnimating	= true;
+							$(this).hide();
+							var $item	= $(this).closest('div.ca-item');
+							aux.openItem( $wrapper, $item, settings, cache );
+							return false;
+						});
+						
 						// click to close the item(s)
 						$el.find('a.ca-close').live('click.contentcarousel', function( event ) {
 							if( cache.isAnimating ) return false;
@@ -226,6 +236,7 @@
 						
 						// adds events to the mouse
 						$el.bind('mousewheel.contentcarousel', function(e, delta) {
+							if( cache.totalItems > 3 )	{
 							if(delta > 0) {
 								if( cache.isAnimating ) return false;
 								cache.isAnimating	= true;
@@ -236,6 +247,7 @@
 								cache.isAnimating	= true;
 								aux.navigate( 1, $el, $wrapper, settings, cache );
 							}	
+							}
 							return false;
 						});
 						

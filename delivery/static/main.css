@@ -408,5 +408,18 @@ a:active{
 	margin-top:140px;
 }
 
+.a_panel{
+	padding:20px;
+	width:300px;
+	height:400px;
+	right:10px;
+	margin-top:-280px;
+	color: #ffffff;
+	background-color :#a52a2a;
+	position:absolute;
+	overflow-y:scroll;
+}
+
+
 .
 

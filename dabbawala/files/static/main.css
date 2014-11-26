@@ -238,6 +238,12 @@ a:active{
 	background-color :#4d4d4d;
 	overflow-y:scroll;
 }
-#checkout_container{
-	
+
+#a_panel{
+	width:150px;
+	height:600px;
+	rigth:0px;
+	color: #ffffff;
+	background-color :#a52a2a;
+	overflow-y:scroll;	
 }

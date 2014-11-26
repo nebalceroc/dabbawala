@@ -39,6 +39,10 @@ function addNow(item_id) {
 	quantiy = document.getElementById('q_input_'+item_id).value;
 	post("",{"add_item":item_id,"quantity":quantiy}); 
 }
+
+function checkout() {
+	window.location.href = "/delivery/checkout/";
+}
 </script>
 <body>
 	<div id="header">
@@ -50,9 +54,6 @@ function addNow(item_id) {
     			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
     			<li><a href="/delivery/register">&iexcl;Registrarse!</a></li>
 			{% endif %}				
-	    	<li>&iquest;Qui&eacute;nes somos?</li>
-    		<li>Ayuda</li>
-	    	<li>&iexcl;Cont&aacute;ctanos!</li>
 		</ul>
 	</div>
 	
@@ -62,19 +63,18 @@ function addNow(item_id) {
 			<h1>dabbawala</h1>
 			<h3>ordena r&aacute;pido y seguro</h3>
 			<div id="ca-container" class="ca-container">
-				<div class="ca-nav"><span class="ca-nav-prev">Previous</span><span class="ca-nav-next">Next</span></div>
 					<div class="ca-wrapper">
 						{% for item in latest_products %}
         					<div class="ca-item ca-item-{{ item.id }}">
             					<div class="ca-item-main">
-                    				<img src="/media/{{ item.photo }}">
-                					<div class="ca-icon">
-                					</div>
+                    				<img src="/media/{{ item.photo }}" style="position:relative;height:50%;width:90%;">
+                					<div style="position:relative;height:30%;width:90%;">
                 					<h2>{{ item.name }}</h2>
                 					<h3>
                     				<span class="ca-quote">“</span>
                     				<span>{{ item.description }}</span>
                 					</h3>
+                					</div>
                     				<a href="#" class="ca-more">more...</a>
             					</div>
             					<div class="ca-content-wrapper" style="overflow:hidden">
@@ -110,7 +110,7 @@ function addNow(item_id) {
         </div>
 	{% endfor %}
 	</div>
-	<button class="checkout_button"><a href="/delivery/checkout">Checkout</a></button>
+	<button class="checkout_button" onClick="checkout();">Checkout</button>
 	<!--<img src='{% static "dabba.jpg" %}'/>-->
 	
 <div id="menu">

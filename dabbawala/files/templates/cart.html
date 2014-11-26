@@ -1,7 +1,7 @@
 <html>
 
 {% load staticfiles %}
-<script type="text/javascript" src="static/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="/static/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 <head>
@@ -9,17 +9,57 @@
 	<link href='{% static "main.css" %}' rel='stylesheet' type='text/css'>
 	<!--<link href='main.css' rel='stylesheet' type='text/css'>-->
 </head>
+<script type="text/javascript">
+
+//function to create a django hidden form with custom inputs
+function post(path, params, method) {
+    method = method || "POST"; 
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+			//hiddenField.setAttribute("csrfmiddlewaretoken","{{csrf_token}}");
+            form.appendChild(hiddenField);
+         }        
+    }    
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "csrfmiddlewaretoken");
+    hiddenField.setAttribute("value", "{{csrf_token}}");
+    form.appendChild(hiddenField);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function modifyQ(item_id) {
+	quantiy = document.getElementById('q_input_'+item_id).value;
+	post("",{"mod_item":item_id,"quantity":quantiy}); 
+}
+function order() {
+	dir = document.getElementById('dir').value;
+	if(dir.trim().length<1){
+		alert("Debe ingresar una direccion");
+	}else{
+		post("",{"dir":dir}); 
+	}
+}
+
+</script>
 <body>
 	<div id="header">
 		<ul id="navlist">
 			{% if user.is_authenticated %}
+			    <li><a href="/delivery/logout">Log out</a></li>	
 			    <li>Hola, {{ user.username }}!</li>		
 			{% else %}
     			<li><a href="/delivery/login">&iexcl;Inicia sesi&oacute;n!</a></li>		
 			{% endif %}				
-	    	<li>&iquest;Qui&eacute;nes somos?</li>
-    		<li>Ayuda</li>
-	    	<li>&iexcl;Cont&aacute;ctanos!</li>
 		</ul>
 	</div>
 
@@ -29,22 +69,20 @@
 			<h1>dabbawala</h1>
 			<h3>{{user.username}} checkout</h3>
 			
-			<form action="/payment/{{ request_id }}" method="POST">
-    {% csrf_token %}
     <div id="ca-container" class="ca-container">
-				<div class="ca-nav"><span class="ca-nav-prev">Previous</span><span class="ca-nav-next">Next</span></div>
 					<div class="ca-wrapper">
 						{% for item in product_list %}
         					<div class="ca-item ca-item-{{ item.product.id }}">
             					<div class="ca-item-main">
-                    				<img src="/media/{{ item.product.photo }}">
-                					<div class="ca-icon">
-                					</div>
-                					<h2>{{ item.product.name }}</h2>
-                					<h3>
+                    				<img src="/media/{{ item.product.photo }}" style="position:relative;height:50%;width:90%;">
+                					<div style="position:relative;height:50%;width:90%;">
+                					<font size="5" color="white">{{ item.product.name }}</font><br>
                     				<span class="ca-quote">“</span>
                     				<span>{{ item.product.description }}</span>
-                					</h3>
+                    				<br>
+                					<input class="textbox_m" name="q_input" id="q_input_{{item.product.pk}}" type="number" min="1" value="{{item.amount}}"/>
+                    						<button id="mod_b" class="m_button" onClick="modifyQ( {{item.product.pk}} )">Save quantity</button>
+                					</div>
             					</div>
       
         					</div>
@@ -52,17 +90,21 @@
 				</div><!-- ca-wrapper -->
 			</div><!-- ca-container -->
 	<strong>Total</strong>: {{ total }} USD
-        <script
-        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="pk_test_wSObXzm2szNaZC4175hLmEd0"
-        data-amount="{{ cents_total }}"
-        data-name="Request Pay"
-        data-description="Dabbawala food delivery service :D"
-        data-image="/static/dabbawala.jpg">
-        </script>
-	</form>
 		</div>
 	</center>
+	<div id="a_panel" class="a_panel">	
+
+	</div>
+	
+<div id="a_panel" class="a_panel">
+	<h4>
+		Ingresa tu dirección!!!
+	</h4>
+	<input id="dir" class="dir" name="dir" type="text" style="width:180px;"/>	
+	<button onClick="order()">
+		Ordnar ahora
+	</button>
+</div>
 	
 	<!--<img src='{% static "dabba.jpg" %}'/>-->
 
