@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response
-from delivery.models import Request
+from delivery.models import Request, RequestProduct
 from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from report.forms import StatForm
@@ -29,7 +29,7 @@ def stats(request):
 			if kind == 'TV':
 				values = ['Total de Ventas']
 				months = ['Mes']
-				query = Request.objects.filter(pur_date__range=(start_date, end_date))
+				query = Request.objects.filter(pur_date__range=(start_date, end_date), state='A')
 				total_sold = 0
 				actual = start_date
 				while actual < end_date:
@@ -51,11 +51,11 @@ def stats(request):
 				values = [product.name]
 				months = ['Mes']
 				total_sold = 0
-				query = Request.objects.filter(pur_date__range=(start_date, end_date),products=product)
+				query = RequestProduct.objects.filter(request__pur_date__range=(start_date, end_date), product = product, request__state = 'A')
 				actual = start_date
 				while actual < end_date:
-					for sold in query.filter(pur_date__range=(actual, add_months(actual,1)-timedelta(days=1))):
-						total_sold += 1
+					for sold in query.filter(request__pur_date__range=(actual, add_months(actual,1)-timedelta(days=1))):
+						total_sold += sold.amount
 					values.append(total_sold)
 					months.append(calendar.month_name[actual.month])
 					actual = add_months(actual, 1)

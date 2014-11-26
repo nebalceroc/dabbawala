@@ -15,7 +15,7 @@ DATABASES = {
         'NAME': 'dabbawala',
         'ENGINE': 'mysql.connector.django',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'abc123456',
         #'OPTIONS': {'autocommit': True},    
     }
 }

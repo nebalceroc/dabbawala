@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext, loader
 from delivery.models import Product, Request, Cart, UserProfile, CartProduct, RequestProduct
-from delivery.forms import UserForm, UserProfileForm
+from delivery.forms import UserForm
 from delivery.services import get_user_cart, get_cart_list, get_user_rol, empty_cart, get_request
 import datetime
 
