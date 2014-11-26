@@ -10,7 +10,8 @@ import datetime
 
 def index(request):
     u = request.user
-    cart = get_user_cart(u)
+    if request.user.is_authenticated():
+        cart = get_user_cart(u)
     if request.method == "POST":
         if request.POST.get("add_item"):
             item = request.POST.get("add_item")    
@@ -35,7 +36,7 @@ def index(request):
 
 def checkout(request):
     u = request.user
-    cart = get_user_cart(u.id)
+    cart = get_user_cart(u)
     total=0    
     all_products = CartProduct.objects.filter(cart_id=cart.id)
     product_list = []
@@ -52,7 +53,7 @@ def checkout(request):
     r.total=total
     r.save() 
 
-    context = {'product_list':product_list ,'total': total , 'request_id': r.id}
+    context = {'product_list':product_list ,'total': total , 'request_id': r.id,'cents_total':total*100}
     return render(request, 'cart.html', context)  
     
 
@@ -126,7 +127,7 @@ def user_login(request):
                 return HttpResponse('Invalid login details.')
         else:
             print 'Invalid login details: {0}:{1}'.format(username, password)
-            return HttpResponse('Your Dabbawala account is disabled')
+            return HttpResponse('Invalid login data')
     else:
         return render_to_response('login.html', {}, context)
 

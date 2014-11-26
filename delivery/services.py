@@ -5,7 +5,7 @@ def get_request(request_id):
     return request
 
 def get_user_cart(u):
-    pu = UserProfile.objects.get(user=u)
+    pu = UserProfile.objects.get(user=u.id)
     try:
         cart = Cart.objects.get(user_id=pu)
     except Cart.DoesNotExist:
