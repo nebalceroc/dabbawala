@@ -85,7 +85,7 @@ function checkout() {
                         					<p>{{ item.description }}</p>
                         					<p>Price: {{ item.price }}USD</p>
                         					<input class="textbox_m" name="q_input" id="q_input_{{item.pk}}" type="number" min="0" value="0"/>
-                    						<button id="add_b" class="order_button" onClick="addNow( {{item.pk}} )">Add to cart!</button>
+                    						<button id="add_b" class="order_button" onClick="addNow('{{item.pk}}')">Add to cart!</button>
                     					</div>
                 					</div>
             					</div>
