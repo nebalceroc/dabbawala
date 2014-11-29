@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^payment/', include('payment.urls')),
     url(r'^report/', include('report.urls')),
+    url(r'^rest_api/', include('rest_api.urls'))
     
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
