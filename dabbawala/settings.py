@@ -13,9 +13,9 @@ DATABASES = {
         
     'default': {
         'NAME': 'dabbawala',
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'USER': 'root',
-        'PASSWORD': 'abc123456',
+        'PASSWORD': 'hurriamadurr',
         #'OPTIONS': {'autocommit': True},    
     }
 }

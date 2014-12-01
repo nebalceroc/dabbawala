@@ -13,6 +13,11 @@ urlpatterns = patterns('',
     url(r'^admin/report/', include('report.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^payment/', include('payment.urls')),
+<<<<<<< HEAD
     
+=======
+    url(r'^report/', include('report.urls')),
+    url(r'^rest_api/', include('rest_api.urls'))
+>>>>>>> 5d5419a135451217e05edf3904aa8a66b9ed54c5
     
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
